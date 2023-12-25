@@ -7,6 +7,7 @@ resource "aws_docdb_cluster" "docdb" {
   master_password         = data.aws_ssm_parameter.docdb_pass.value
   backup_retention_period = var.backup
   skip_final_snapshot     = var.skip_final_snapshot
+  db_subnet_group_name = aws_docdb_subnet_group.main.name
 }
 
 
@@ -26,4 +27,10 @@ resource "aws_docdb_subnet_group" "main" {
   }
 }
 
-
+#cluster instance creation
+resource "aws_docdb_cluster_instance" "cluster_instances" {
+  count              = 1
+  identifier         = "docdb-cluster-demo"
+  cluster_identifier = aws_docdb_cluster.docdb.id
+  instance_class     = "db.t3.medium"
+}
