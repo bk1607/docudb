@@ -1,4 +1,4 @@
-cluster_name = "roboshop_docdb"
+cluster_name = "roboshop-docdb"
 engine = "docdb"
 engine_version = "4.0.0"
 backup = 2
