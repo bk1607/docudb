@@ -7,3 +7,4 @@ variable "instance_class" {}
 variable "instance_count" {}
 variable "env" {}
 variable "docdb_subnet_group" {}
+variable "db_subnet_ids" {}

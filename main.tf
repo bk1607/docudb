@@ -11,16 +11,11 @@ resource "aws_docdb_cluster" "docdb" {
 }
 
 
-#local variables
-locals {
-  db_subnet_ids =  data.aws_subnets.vpc_subnets.ids
-}
-
 ## creating subnet group
 resource "aws_docdb_subnet_group" "main" {
   name       = "${var.env}-${var.docdb_subnet_group}"
 
-  subnet_ids = local.db_subnet_ids
+  subnet_ids = var.db_subnet_ids
 
   tags = {
     Name = "My docdb subnet group"
