@@ -1,13 +1,13 @@
 # creating docdb cluster
 resource "aws_docdb_cluster" "docdb" {
-  cluster_identifier      = var.cluster_name
+  cluster_identifier      = "${var.env}-${var.cluster_name}"
   engine                  = var.engine
   engine_version          = var.engine_version
   master_username         = data.aws_ssm_parameter.docdb_user.value
   master_password         = data.aws_ssm_parameter.docdb_pass.value
   backup_retention_period = var.backup
   skip_final_snapshot     = var.skip_final_snapshot
-  db_subnet_group_name = aws_docdb_subnet_group.main.name
+  db_subnet_group_name    = aws_docdb_subnet_group.main.name
 }
 
 
@@ -18,7 +18,7 @@ locals {
 
 ## creating subnet group
 resource "aws_docdb_subnet_group" "main" {
-  name       = "docdb_subnet_group"
+  name       = "${var.env}-${var.docdb_subnet_group}"
 
   subnet_ids = local.db_subnet_ids
 
@@ -29,8 +29,9 @@ resource "aws_docdb_subnet_group" "main" {
 
 #cluster instance creation
 resource "aws_docdb_cluster_instance" "cluster_instances" {
-  count              = 1
-  identifier         = "docdb-cluster-demo"
+  count              = var.instance_count
+  identifier         = "${var.env}-${var.cluster_name}-identifier"
   cluster_identifier = aws_docdb_cluster.docdb.id
-  instance_class     = "db.t3.medium"
+  instance_class     = var.instance_class
 }
+

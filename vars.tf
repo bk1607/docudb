@@ -3,3 +3,7 @@ variable "engine" {}
 variable "cluster_name" {}
 variable "backup" {}
 variable "skip_final_snapshot" {}
+variable "instance_class" {}
+variable "instance_count" {}
+variable "env" {}
+variable "docdb_subnet_group" {}
